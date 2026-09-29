@@ -28,9 +28,11 @@ What's unchanged and worth knowing:
 
 import time
 import secrets
-import requests
+import json
 from flask import Flask, render_template, request, session, redirect, url_for
 from workers import env, wsgi
+from js import fetch
+from pyodide.ffi import to_js
 
 app = Flask(__name__)
 
@@ -65,16 +67,24 @@ def generate_otp():
     return "".join(secrets.choice("0123456789") for _ in range(6))
 
 
-def send_telegram_otp(otp):
-    """Send the OTP to the configured Telegram chat via the Bot API (OOB delivery)."""
+async def send_telegram_otp(otp):
+    """Send the OTP to the configured Telegram chat via the Bot API (OOB delivery).
+    Cloudflare Workers only supports outbound HTTP via the native async fetch()
+    API, so this calls it directly through Python Workers' JS interop (FFI)
+    instead of a Python HTTP library."""
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     message = (
         f"*Project MFA*\n"
         f"Verification code: `{otp}`\n"
         f"Expires in {OTP_EXPIRY_SECONDS // 60} minutes · do not share this code"
     )
-    payload = {"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"}
-    response = requests.post(url, data=payload, timeout=10)
+    payload = json.dumps({"chat_id": CHAT_ID, "text": message, "parse_mode": "Markdown"})
+    response = await fetch(
+        url,
+        method="POST",
+        headers=to_js({"Content-Type": "application/json"}),
+        body=payload,
+    )
     return response.ok
 
 
@@ -88,7 +98,7 @@ def login_page():
 
 
 @app.route("/login", methods=["POST"])
-def login():
+async def login():
     username = request.form.get("username", "").strip()
     password = request.form.get("password", "")
 
@@ -99,7 +109,7 @@ def login():
     expires_at = time.time() + OTP_EXPIRY_SECONDS
     active_otps[username] = {"otp": otp, "expires_at": expires_at}
 
-    sent = send_telegram_otp(otp)
+    sent = await send_telegram_otp(otp)
     if not sent:
         return render_template(
             "login.html",

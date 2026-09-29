@@ -72,6 +72,29 @@ Wrangler will print your live `.workers.dev` URL when it finishes.
 
 ## Known caveat: OTP storage
 
+## Known caveat: outbound HTTP via async fetch()
+
+Cloudflare Workers only support outbound HTTP through the native async
+`fetch()` API - Python HTTP libraries like `requests` are **not**
+actually available in the live runtime yet, even though some of
+Cloudflare's own beta docs suggested otherwise (learned this the hard
+way from a real failed deployment). This project calls Telegram's API
+through `from js import fetch`, Python Workers' JS interop bridge, and
+the `/login` route is written as `async def` so it can `await` that
+call.
+
+**If your deploy fails with an async/threading-related error:** Flask's
+async view support relies on a package called `asgiref` to bridge
+Flask's normally-synchronous view functions with `async def`. This is
+about as bleeding-edge as it gets on Cloudflare's platform right now,
+so if this specific piece breaks, it's a known risk, not something you
+did wrong. At that point, the pragmatic move is to fall back to your
+local `Project_MFA/` version for your actual submission and mention
+the Cloudflare attempt as a stretch goal you explored in your report -
+you don't need a live public deployment to get full marks on this lab.
+
+## Known caveat: OTP storage
+
 The OTP store is still a plain Python dictionary, same as your local
 version. This works fine for a single person testing sequentially (one
 login → one OTP → one verify), which covers your demo and screenshots.
