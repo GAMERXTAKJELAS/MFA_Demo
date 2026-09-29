@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project MFA - Success</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-mark">MFA</span>
+        <span class="brand-name">Project MFA</span>
+      </div>
+
+      <div class="steps">
+        <span class="step is-done">1 Login</span>
+        <span class="step is-done">2 Verify</span>
+        <span class="step is-active">3 Done</span>
+      </div>
+
+      <div class="success-icon">✓</div>
+      <h1>Congratulations, {{ username }}</h1>
+      <p class="subtitle">You've signed in successfully with two-factor authentication.</p>
+
+      <a href="{{ url_for('about_page') }}" class="btn-primary btn-link">About this project</a>
+      <a href="{{ url_for('logout') }}" class="btn-secondary btn-link">Log out</a>
+    </div>
+  </main>
+</body>
+</html>

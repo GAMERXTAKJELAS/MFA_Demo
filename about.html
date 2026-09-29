@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project MFA - About</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-card about-card">
+      <div class="brand">
+        <span class="brand-mark">MFA</span>
+        <span class="brand-name">Project MFA</span>
+      </div>
+
+      <h1>About this project</h1>
+      <p class="subtitle">
+        Project MFA is a practical demonstration of Two-Factor Authentication (2FA)
+        using an Out-of-Band (OOB) delivery channel. Instead of relying on a
+        password alone, the system sends a time-limited one-time code to the
+        user's Telegram account, so a stolen password alone isn't enough to
+        break in.
+      </p>
+
+      <section class="about-section">
+        <h2>How it works</h2>
+        <ol class="about-list">
+          <li>User logs in with a username and password.</li>
+          <li>A cryptographically secure 6-digit code is generated and sent via the Telegram Bot API.</li>
+          <li>The code expires after 3 minutes and is deleted immediately after use, preventing replay attacks.</li>
+        </ol>
+      </section>
+
+      <section class="about-section">
+        <h2>Built with</h2>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Telegram Bot API</span>
+          <span class="tag">HTML / CSS / JS</span>
+        </div>
+      </section>
+
+      <section class="about-section">
+        <h2>Team</h2>
+        <p class="subtitle" style="margin-bottom:14px;">
+          Diploma in Computer Technology (Big Data) &middot; TVET MARA Lumut &middot; DFD 50193 Information Security
+        </p>
+        <div class="member-list">
+          <div class="member">
+            <div class="member-avatar">1</div>
+            <div>
+              <div class="member-name">[Your Name Here]</div>
+              <div class="member-role">Matric No: [Your ID] &middot; [Your Role, e.g. Backend & Telegram Integration]</div>
+            </div>
+          </div>
+          <div class="member">
+            <div class="member-avatar">2</div>
+            <div>
+              <div class="member-name">[Partner's Name Here]</div>
+              <div class="member-role">Matric No: [Partner's ID] &middot; [Their Role, e.g. Frontend & UI Design]</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <a href="{{ url_for('login_page') }}" class="btn-primary btn-link" style="margin-top:24px;">Back to login</a>
+    </div>
+  </main>
+</body>
+</html>

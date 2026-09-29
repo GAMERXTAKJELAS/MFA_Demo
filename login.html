@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project MFA - Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-mark">MFA</span>
+        <span class="brand-name">Project MFA</span>
+      </div>
+
+      <div class="steps">
+        <span class="step is-active">1 Login</span>
+        <span class="step">2 Verify</span>
+        <span class="step">3 Done</span>
+      </div>
+
+      <h1>Sign in to your account</h1>
+      <p class="subtitle">Enter your credentials to continue. A one-time code will be sent to your Telegram.</p>
+
+      {% if error %}
+        <div class="alert">{{ error }}</div>
+      {% endif %}
+
+      <form action="{{ url_for('login') }}" method="POST" class="form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="admin" required autofocus>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+        <button type="submit" class="btn-primary">Continue</button>
+      </form>
+
+      <p class="hint">Demo account: <code>admin</code> / <code>password123</code></p>
+    </div>
+  </main>
+</body>
+</html>

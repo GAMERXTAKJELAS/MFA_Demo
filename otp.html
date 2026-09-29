@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project MFA - Enter Code</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="auth-shell">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-mark">MFA</span>
+        <span class="brand-name">Project MFA</span>
+      </div>
+
+      <div class="steps">
+        <span class="step is-done">1 Login</span>
+        <span class="step is-active">2 Verify</span>
+        <span class="step">3 Done</span>
+      </div>
+
+      <h1>Enter your code</h1>
+      <p class="subtitle">We sent a 6-digit code to your Telegram. It expires in <span id="timer">{{ expiry_seconds // 60 }}:00</span>.</p>
+
+      {% if error %}
+        <div class="alert">{{ error }}</div>
+      {% endif %}
+
+      <form action="{{ url_for('verify_otp') }}" method="POST" class="form">
+        <label for="otp">Verification code</label>
+        <input
+          type="text"
+          id="otp"
+          name="otp"
+          inputmode="numeric"
+          pattern="[0-9]{6}"
+          maxlength="6"
+          placeholder="000000"
+          class="otp-input"
+          required
+          autofocus>
+
+        <button type="submit" class="btn-primary">Verify</button>
+      </form>
+
+      <p class="hint"><a href="{{ url_for('login_page') }}">Cancel and start over</a></p>
+    </div>
+  </main>
+
+  <script>
+    const EXPIRY_SECONDS = {{ expiry_seconds }};
+  </script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
