@@ -1,8 +1,6 @@
 # Project MFA
 
-A hands-on demonstration of **Two-Factor Authentication (2FA)** using an **Out-of-Band (OOB)** delivery channel — the Telegram Bot API — built as a security lab for Diploma in Computer Technology (Big Data), TVET MARA Lumut.
-
-Instead of relying on a password alone, this system sends a time-limited, cryptographically secure one-time code to the user's Telegram account. Even if a password is phished, the attacker still needs access to the user's Telegram to log in.
+A lightweight implementation of **Two-Factor Authentication (2FA)** using an **Out-of-Band (OOB)** delivery channel via the Telegram Bot API, deployed on Cloudflare Python Workers.
 
 ## Features
 
